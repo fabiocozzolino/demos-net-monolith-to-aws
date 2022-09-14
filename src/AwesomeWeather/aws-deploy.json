@@ -1,0 +1,45 @@
+{
+  "AWSRegion": "eu-west-1",
+  "ApplicationName": "AwesomeWeather",
+  "RecipeId": "AspNetAppElasticBeanstalkLinux",
+  "Settings": {
+    "BeanstalkApplication": {
+      "CreateNew": true,
+      "ApplicationName": "AwesomeWeather"
+    },
+    "BeanstalkEnvironment": {
+      "EnvironmentName": "AwesomeWeather-dev"
+    },
+    "InstanceType": "",
+    "EnvironmentType": "SingleInstance",
+    "LoadBalancerType": "application",
+    "ApplicationIAMRole": {
+      "CreateNew": true
+    },
+    "ServiceIAMRole": {
+      "CreateNew": true
+    },
+    "EC2KeyPair": "",
+    "ElasticBeanstalkPlatformArn": "arn:aws:elasticbeanstalk:eu-west-1::platform/.NET Core running on 64bit Amazon Linux 2/2.3.5",
+    "ElasticBeanstalkManagedPlatformUpdates": {
+      "ManagedActionsEnabled": true,
+      "PreferredStartTime": "Sun:00:00",
+      "UpdateLevel": "minor"
+    },
+    "XRayTracingSupportEnabled": false,
+    "ReverseProxy": "nginx",
+    "EnhancedHealthReporting": "enhanced",
+    "HealthCheckURL": "/",
+    "ElasticBeanstalkRollingUpdates": {
+      "RollingUpdatesEnabled": false
+    },
+    "CNamePrefix": "",
+    "ElasticBeanstalkEnvironmentVariables": "",
+    "VPC": {
+      "UseVPC": false
+    },
+    "DotnetBuildConfiguration": "Release",
+    "DotnetPublishArgs": "",
+    "SelfContainedBuild": false
+  }
+}

@@ -1,0 +1,14 @@
+{
+    "manifestVersion": 1,
+    "deployments": {
+        "aspNetCoreWeb": [
+        {
+            "name": "awesomeweather-app",
+            "parameters": {
+                "archive": "awesomeweather-app.zip",
+                "iisPath": "/"
+              }
+        }
+        ]
+    }
+}

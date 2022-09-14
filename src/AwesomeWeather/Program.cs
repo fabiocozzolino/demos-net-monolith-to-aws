@@ -1,13 +1,25 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using AwesomeWeather.Data;
+//using AwesomeWeather.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+//builder.Services.AddSingleton<WeatherForecastService>();
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient("LocalApi", client => client.BaseAddress = new Uri("http://aweso-recip-1wtk0gvpnmk26-1394321891.eu-west-1.elb.amazonaws.com/")).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ClientCertificateOptions = ClientCertificateOption.Manual,
+            ServerCertificateCustomValidationCallback =
+            (httpRequestMessage, cert, cetChain, policyErrors) =>
+            {
+                return true;
+            }
+        });;
+
 
 var app = builder.Build();
 
@@ -25,6 +37,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 

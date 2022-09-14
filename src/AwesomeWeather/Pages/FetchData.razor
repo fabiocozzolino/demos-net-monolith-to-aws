@@ -1,9 +1,9 @@
 ﻿@page "/fetchdata"
+@using Newtonsoft.Json
 
 <PageTitle>Weather forecast</PageTitle>
 
-@using AwesomeWeather.Data
-@inject WeatherForecastService ForecastService
+@inject IHttpClientFactory ClientFactory
 
 <h1>Weather forecast</h1>
 
@@ -28,10 +28,10 @@ else
             @foreach (var forecast in forecasts)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@forecast.date</td>
+                    <td>@forecast.temperatureC</td>
+                    <td>@forecast.temperatureF</td>
+                    <td>@forecast.summary</td>
                 </tr>
             }
         </tbody>
@@ -39,10 +39,11 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private dynamic? forecasts;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+        var clientlocal = ClientFactory.CreateClient("LocalApi");
+        forecasts = JsonConvert.DeserializeObject<dynamic>(await clientlocal.GetStringAsync("WeatherForecast"));
     }
 }

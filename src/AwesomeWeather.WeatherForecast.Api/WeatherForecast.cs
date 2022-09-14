@@ -1,4 +1,4 @@
-namespace AwesomeWeather.Data;
+namespace AwesomeWeather.WeatherForecast.Api;
 
 public class WeatherForecast
 {
