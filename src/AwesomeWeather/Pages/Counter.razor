@@ -1,4 +1,7 @@
 ﻿@page "/counter"
+@using Amazon.Runtime
+@using Amazon.SQS
+@using Amazon.SQS.Model
 
 <PageTitle>Counter</PageTitle>
 
@@ -8,11 +11,55 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+<h3>@badWeatherDate</h3>
+
 @code {
     private int currentCount = 0;
+    private string badWeatherDate = "";
 
-    private void IncrementCount()
+    private async Task IncrementCount()
     {
+        string queueUrl = "https://sqs.eu-west-1.amazonaws.com/979194342604/BadWeatherHome";
+        var attributeNames = new List<string>();
+        int maxNumberOfMessages = 5;
+        var visibilityTimeout = (int)TimeSpan.FromMinutes(10).TotalSeconds;
+        var waitTimeSeconds = (int)TimeSpan.FromSeconds(2).TotalSeconds;
+
+        // If the Amazon SQS message queue is not in the same AWS Region as your
+        // default user, you need to provide the AWS Region as a parameter to the
+        // client constructor.
+        try 
+        {
+            var awsCredentials = new BasicAWSCredentials("AKIA6H7EH5TGECS5LUYV", "AVQki/M3As0coXWU69av37VMgLDbHSqFwwVSVmhv");
+            var client = new AmazonSQSClient(awsCredentials);
+
+            var request = new ReceiveMessageRequest
+            {
+                QueueUrl = queueUrl,
+                AttributeNames = attributeNames,
+                MaxNumberOfMessages = maxNumberOfMessages,
+                VisibilityTimeout = visibilityTimeout,
+                WaitTimeSeconds = waitTimeSeconds,
+            };
+
+            var response = await client.ReceiveMessageAsync(request);
+
+            if (response.Messages.Count > 0)
+            {
+                var message = response.Messages.First();                
+                badWeatherDate = "Bad weather on " + message.Body;
+                await client.DeleteMessageAsync(queueUrl, message.ReceiptHandle);
+            }
+            else
+            {
+                badWeatherDate = "Whooa! No bad weather";
+            }
+        }
+        catch(Exception ex)
+        {
+            badWeatherDate = ex.ToString();
+        }
+        
         currentCount++;
     }
 }

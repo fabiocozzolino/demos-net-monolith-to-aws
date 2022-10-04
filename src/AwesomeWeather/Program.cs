@@ -10,7 +10,7 @@ builder.Services.AddServerSideBlazor();
 //builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddHttpClient("LocalApi", client => client.BaseAddress = new Uri("http://aweso-recip-1wtk0gvpnmk26-1394321891.eu-west-1.elb.amazonaws.com/")).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+builder.Services.AddHttpClient("LocalApi", client => client.BaseAddress = new Uri("http://aweso-recip-1qikl4zw571uk-778704500.eu-west-1.elb.amazonaws.com/")).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
         {
             ClientCertificateOptions = ClientCertificateOption.Manual,
             ServerCertificateCustomValidationCallback =
